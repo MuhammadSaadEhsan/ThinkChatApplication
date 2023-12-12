@@ -1,3 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
+import 'package:think_chat/firebase_options.dart';
+import 'package:think_chat/splashpage.dart';
 import 'package:flutter/material.dart';
 import 'package:think_chat/screens/Auth/LoginPage.dart';
 import 'package:think_chat/screens/HomePage.dart';
@@ -5,7 +9,14 @@ import 'package:think_chat/splashpage.dart';
 
 late Size mq;
 void main() {
-  runApp(const MyApp());
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then(
+    (value) {
+      _intializefirebase();
+      runApp(const MyApp());
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -31,4 +42,10 @@ class MyApp extends StatelessWidget {
       home: SplashScreen(),
     );
   }
+}
+
+_intializefirebase() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
